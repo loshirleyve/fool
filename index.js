@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-
+var fortune = require('./lib/fortune.js');
 //设置视图引擎
 app.set("views", path.join(__dirname, "views"));
 app.locals.basedir = app.get('views');
@@ -12,25 +12,11 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
-  // res.type('text/plain');
-  // res.send('Mdadowlark Travel');
   res.render('home');
 });
 
-
-var fortunes = [
-  "Conquer your fears or they will conquer you.",
-  "Rivers need springs.",
-  "Do not fear what you don't know.",
-  "You will have a pleasant surprise.",
-  "Whenever possible, keep it simple."
-];
 app.get('/about', function(req, res){
-  // res.type('text/plain');
-  // res.send('About Meadowlark Travel');
-  var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-  console.info(randomFortune);
-  res.render('about', {fortune:randomFortune});
+  res.render('about', {fortune:fortune.getFortune()});
 });
 
 app.use(function(req, res){
